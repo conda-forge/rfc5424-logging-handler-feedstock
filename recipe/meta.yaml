@@ -6,29 +6,31 @@ package:
   version: "{{ version }}"
 
 source:
-  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
     sha256: 9ae14073ef6d76d0c730ad6b6e3aeece841a6d413672d282876c0506dc097257
   - url: https://raw.githubusercontent.com/jobec/rfc5424-logging-handler/master/LICENSE
     sha256: 661332fc08c9c3fbb38071d8edde002cf1e6f5d7533c5d18771a47c1a26ef1ab
 
 build:
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv "
   noarch: python
 
 requirements:
   host:
     - pip
-    - python
+    - python {{ python_min }}
     - pytz
     - setuptools
     - tzlocal
   run:
-    - python
+    - python >={{ python_min }}
     - pytz
     - tzlocal
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - rfc5424logging
 
